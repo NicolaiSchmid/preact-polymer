@@ -1,0 +1,17 @@
+.footer {
+  height: 100%;
+  width: 100%;
+
+  background-color: var(--background-dark-color);
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.child {
+  margin: 0 16px;
+  color: var(--text-light-color);
+  height: 100%;
+  display: flex;
+  align-items: center;
+}

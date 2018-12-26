@@ -1,0 +1,16 @@
+{
+  "name": "{{ name }}",
+  "short_name": "{{ name }}",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#fff",
+  "theme_color": "#673ab8",
+  "icons": [
+    {
+      "src": "assets/touch/apple-touch-icon.png",
+      "sizes": "600x600",
+      "type": "image/png"
+    }
+  ]
+}

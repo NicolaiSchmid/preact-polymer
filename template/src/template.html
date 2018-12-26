@@ -1,0 +1,154 @@
+<!--
+  @license
+  Copyright (c) 2019 Nicolai Schmid. All rights reserved.
+-->
+
+<!DOCTYPE html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8" />
+    <base href="/" />
+    <meta
+      name="viewport"
+      content="width=device-width, minimum-scale=1, initial-scale=1, maximum-scale=4, user-scalable=yes"
+    />
+
+    <title>Lopha.de</title>
+
+    <meta name="author" content="Nicolai Schmid" />
+    <meta name="description" content="Nicolai Schmid" />
+    <!-- <meta name="keywords" content="" /> -->
+
+    <meta property="og:url" content="https://nicolaischmid.de" />
+    <!-- <meta property="og:type" content="" /> -->
+    <meta property="og:title" content="{{ name }}" />
+    <!-- <meta property="og:title" content="Nicolai Schmid" /> -->
+    <meta property="og:locale" content="de_DE" />
+
+    <meta name="twitter:card" content="summary" />
+
+    <link rel="manifest" href="/manifest.json" />
+
+    <% if (htmlWebpackPlugin.options.manifest.theme_color) { %>
+    <meta name="theme-color" content="<%= htmlWebpackPlugin.options.manifest.theme_color %>" />
+    <meta
+      name="msapplication-TileColor"
+      content="<%= htmlWebpackPlugin.options.manifest.theme_color %>"
+    />
+    <% } else { %>
+    <meta name="theme-color" content="#e90000" />
+    <meta name="msapplication-TileColor" content="#e90000" />
+    <% } %>
+
+    <!-- Android Homescreen -->
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="application-name" content="Lopha" />
+
+    <!-- iOS Homescreen -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Lopha" />
+
+    <!-- Homescreen icons -->
+    <link rel="apple-touch-icon" href="assets/touch/apple-touch-icon.png" />
+    <link rel="apple-touch-icon" sizes="600x600" href="assets/touch/apple-touch-icon.png" />
+
+    <!-- Tile icon for Windows 8 (144x144 + tile color) -->
+
+    <% for (var chunk of webpack.chunks) { %> <% if (chunk.names.length === 1 && chunk.names[0] ===
+    'polyfills') continue; %> <% for (var file of chunk.files) { %> <% if
+    (htmlWebpackPlugin.options.preload && file.match(/\.(js|css)$/)) { %>
+    <link
+      rel="preload"
+      href="<%= htmlWebpackPlugin.files.publicPath + file %>"
+      as="<%= file.match(/\.css$/)?'style':'script' %>"
+    />
+    <% } %> <% } %> <% } %>
+
+    <meta name="msapplication-tap-highlight" content="no" />
+
+    <% for (var cssChunk of htmlWebpackPlugin.files.chunks.bundle.css) { %>
+    <link rel="stylesheet" href="<%= cssChunk %>" />
+    <% } %>
+    <style>
+      .render {
+        height: 100vh;
+        width: 100vw;
+      }
+    </style>
+  </head>
+
+  <body>
+    <%= htmlWebpackPlugin.options.ssr({ url: '/' }) %>
+
+    <noscript>
+      <style>
+        .wrapper {
+          display: flex;
+          justify-content: center;
+        }
+        h1 {
+          font-family: Verdana, Geneva, Tahoma, sans-serif;
+          font-size: 18px;
+          font-weight: 600;
+        }
+      </style>
+      <div class="wrapper"><h1>Bitte für die Benutzung Javascript aktivieren.</h1></div>
+    </noscript>
+
+    <div class="render"></div>
+    <!--
+      Feature detect Custom Elements support. If the browser DOES support Custom
+      Elements then we need to load the custom-elements-es5-adapter because
+      our project code has been transpiled from ES2015 to ES5 and native Custom
+      Elements expect elements will be registered as classes.
+    -->
+    <div id="ce-es5-shim">
+      <script type="text/javascript">
+        if (!window.customElements) {
+          var ceShimContainer = document.querySelector('#ce-es5-shim');
+          ceShimContainer.parentElement.removeChild(ceShimContainer);
+        }
+      </script>
+      <script type="text/javascript" src="webcomponentsjs/custom-elements-es5-adapter.js"></script>
+    </div>
+
+    <!--
+      Use the webcomponents-loader script which will feature detect which Web
+      Components features are missing and lazy load the appropriate polyfills.
+      When we hear the 'WebComponentsReady' event from the polyfill bundle we can
+      insert our 'bundle.js'.
+    -->
+    <script src="webcomponentsjs/webcomponents-loader.js"></script>
+
+    <script>
+      (function () {
+          document.addEventListener('WebComponentsReady', function componentsReady() {
+              document.removeEventListener('WebComponentsReady', componentsReady, false);
+              var script = document.createElement('script');
+              script.defer = true;
+              script.src = '<%= htmlWebpackPlugin.files.chunks['bundle'].entry %>';
+              var refScript = document.getElementsByTagName('script')[0];
+              refScript.parentNode.insertBefore(script, refScript);
+          }, false);
+      })();
+    </script>
+
+    <script>
+      window.fetch ||
+        document.write(
+          '<script src="<%= htmlWebpackPlugin.files.chunks["polyfills"].entry %>"><\/script>',
+        );
+    </script>
+
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js').catch(function(error) {
+            console.error('Error during service worker registration:', error);
+          });
+        });
+      }
+    </script>
+  </body>
+</html>

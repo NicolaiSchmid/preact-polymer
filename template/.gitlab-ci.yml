@@ -1,0 +1,40 @@
+# This file is a template, and might need editing before it works on your project.
+# Full project: https://gitlab.com/pages/plain-html
+variables:
+cache:
+  key: key
+  paths:
+    - ~/.npm
+image: registry.nicolaischmid.de/jerzy/web-tools/image:latest
+
+stages:
+  - gruntwork
+  - stats
+  - build
+  - deploy
+
+lint:
+  stage: gruntwork
+  script:
+    - npm ci
+    - npm run lint
+
+count:
+  stage: gruntwork
+  script:
+    - npm ci
+    - npm run count
+
+build:
+  stage: build
+  script:
+    - npm ci
+    - npm run build
+
+  only:
+    - master
+    - tags
+
+  artifacts:
+    paths:
+      - build/

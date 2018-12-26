@@ -1,0 +1,37 @@
+.article {
+  font-size: 20px;
+}
+
+.article-contrast {
+  background-color: var(--contrast-background-color, #eeeeee);
+  color: var(--contrast-color, #424242);
+}
+
+@media only screen and (min-width: 960px) {
+  .article {
+    padding: 16px 163px;
+    margin: 0;
+  }
+  :host([slim]) .article {
+    padding: 16px 273px;
+    margin: 0;
+  }
+}
+
+@media only screen and (min-width: 600px) and (max-width: 960px) {
+  .article {
+    padding: 16px 63px;
+    margin: 0;
+  }
+  :host([slim]) .article {
+    padding: 16px 103px;
+    margin: 0;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .article {
+    padding: 16px 18px;
+    margin: 0;
+  }
+}
