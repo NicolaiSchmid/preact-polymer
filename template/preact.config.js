@@ -18,7 +18,6 @@ function graphql(config) {
 }
 
 function webcomponentsJs(config) {
-  // This plugin will copy the necessary WebcomponentsJS files to the build directory
   config.plugins.push(
     new CopyWebpackPlugin([
       {
@@ -30,7 +29,6 @@ function webcomponentsJs(config) {
 }
 
 function staticFiles(config) {
-  // This plugin will copy the necessary WebcomponentsJS files to the build directory
   config.plugins.push(
     new CopyWebpackPlugin([
       {
