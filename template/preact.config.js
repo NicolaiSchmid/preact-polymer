@@ -46,6 +46,7 @@ function sw(config, env, helpers) {
     importWorkboxFrom: 'local',
     skipWaiting: true,
     offlineGoogleAnalytics: true,
+    exclude: [/\.map$/, /^manifest.*\.js(?:on)?$/, /assets\//],
     runtimeCaching: [
       {
         urlPattern: /webcomponentsjs/i,
@@ -53,6 +54,14 @@ function sw(config, env, helpers) {
         options: {
           networkTimeoutSeconds: 10,
           cacheName: 'webcomponents-polyfill-cache',
+        },
+      },
+      {
+        urlPattern: /assets/i,
+        handler: 'networkFirst',
+        options: {
+          networkTimeoutSeconds: 10,
+          cacheName: 'assets-cache',
         },
       },
     ],
