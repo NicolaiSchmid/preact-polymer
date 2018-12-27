@@ -46,6 +46,7 @@ function sw(config, env, helpers) {
     skipWaiting: true,
     offlineGoogleAnalytics: true,
     exclude: [/\.map$/, /^manifest.*\.js(?:on)?$/, /assets\//],
+    importsDirectory: 'wb',
     runtimeCaching: [
       {
         urlPattern: /webcomponentsjs/i,
