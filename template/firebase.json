@@ -9,6 +9,24 @@
     ],
     "headers": [
       {
+        "source": "**/*.@(css|js|jpg|json|png|html|woff|ttf|otf)",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "max-age=31536000"
+          }
+        ]
+      },
+      {
+        "source": "/webcomponentsjs/**",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "no-cache"
+          }
+        ]
+      },
+      {
         "source": "sw.js",
         "headers": [
           {
@@ -18,16 +36,7 @@
         ]
       },
       {
-        "source": "index.html",
-        "headers": [
-          {
-            "key": "Cache-Control",
-            "value": "no-cache"
-          }
-        ]
-      },
-      {
-        "source": "manifest.json",
+        "source": "/manifest.json",
         "headers": [
           {
             "key": "Cache-Control",
@@ -54,11 +63,20 @@
         ]
       },
       {
-        "source": "**/*.@(css|js|jpg|png|json|html|woff|ttf|otf)",
+        "source": "favicon.ico",
         "headers": [
           {
             "key": "Cache-Control",
-            "value": "max-age=31536000"
+            "value": "no-cache"
+          }
+        ]
+      },
+      {
+        "source": "/",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "no-cache"
           }
         ]
       }
