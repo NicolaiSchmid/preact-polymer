@@ -43,7 +43,6 @@ function staticFiles(config) {
 
 function sw(config, env, helpers) {
   generateSw(config, helpers, {
-    importWorkboxFrom: 'local',
     skipWaiting: true,
     offlineGoogleAnalytics: true,
     exclude: [/\.map$/, /^manifest.*\.js(?:on)?$/, /assets\//],
